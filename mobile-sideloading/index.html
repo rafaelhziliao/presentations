@@ -560,8 +560,10 @@
         function nextSlide() {
             if (currentSlide < totalSlides) {
                 currentSlide++;
-                showSlide(currentSlide);
+            } else {
+                currentSlide = 1;
             }
+            showSlide(currentSlide);
         }
 
         function prevSlide() {
