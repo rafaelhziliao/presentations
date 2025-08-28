@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apresentação: No Android você instala. No iOS, você pede permissão.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;900&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Dracula Theme Palette */
+        :root {
+            --background: #282a36;
+            --current-line: #44475a;
+            --foreground: #f8f8f2;
+            --comment: #6272a4;
+            --cyan: #8be9fd;
+            --green: #50fa7b;
+            --orange: #ffb86c;
+            --pink: #ff79c6;
+            --purple: #bd93f9;
+            --red: #ff5555;
+            --yellow: #f1fa8c;
+        }
+
+        /* Estilos Globais e Fontes */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            overflow: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 5vw;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+            transform: scale(0.95);
+            background-color: var(--background);
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+            z-index: 1;
+        }
+
+        .slide-title {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: 900;
+        }
+        
+        .slide-content {
+            font-size: 1.5rem;
+            line-height: 1.8;
+            max-width: 800px;
+            text-align: center;
+            color: var(--foreground);
+            opacity: 0.9;
+        }
+
+        .highlight-apple {
+            color: var(--pink);
+        }
+
+        .highlight-android {
+            color: var(--green);
+        }
+        
+        .code-block {
+            background-color: var(--current-line);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            font-family: monospace;
+            font-size: 1rem;
+            white-space: pre;
+            text-align: left;
+            border: 1px solid var(--comment);
+        }
+
+        /* Navegação */
+        .nav-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10;
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-button {
+            background-color: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--comment);
+            color: var(--foreground);
+            padding: 10px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .nav-button:hover {
+            background-color: var(--current-line);
+        }
+        
+        #slide-counter {
+             position: fixed;
+             bottom: 20px;
+             left: 20px;
+             z-index: 10;
+             background-color: rgba(0, 0, 0, 0.2);
+             padding: 5px 15px;
+             border-radius: 20px;
+             font-size: 0.9rem;
+             border: 1px solid var(--comment);
+        }
+
+        /* Estilos específicos dos slides */
+        .split-screen {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            width: 100%;
+            max-width: 1200px;
+            align-items: center;
+        }
+        
+        .split-item {
+            background-color: var(--current-line);
+            border-radius: 1rem;
+            padding: 2rem;
+            border: 1px solid var(--comment);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 350px;
+            text-align: center;
+        }
+
+        .icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1rem;
+        }
+        
+        .table-container {
+            width: 100%;
+            max-width: 1000px;
+            background-color: var(--current-line);
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid var(--comment);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+        }
+        
+        .comparison-table th, .comparison-table td {
+            padding: 1rem 1.5rem;
+            text-align: left;
+        }
+        
+        .comparison-table thead {
+            background-color: #282a36; /* Fundo mais escuro para o header da tabela */
+        }
+        
+        .comparison-table tbody tr:nth-child(even) {
+            background-color: #3a3d4c;
+        }
+
+        .comparison-table td:nth-child(2) { color: var(--green); }
+        .comparison-table td:nth-child(3) { color: var(--pink); }
+        
+        .image-container {
+            max-width: 80%;
+            max-height: 60vh;
+            margin-bottom: 1.5rem;
+        }
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Slide 1: Apresentação Pessoal -->
+    <div id="slide-1" class="slide active">
+        <div class="flex flex-col md:flex-row items-center justify-center gap-12 w-full max-w-5xl">
+            <!-- Foto -->
+            <div class="w-64 h-64 md:w-80 md:h-80 flex-shrink-0">
+                <img class="w-full h-full rounded-full object-cover border-4" style="border-color: var(--purple);" src="https://avatars.githubusercontent.com/u/31957007?s=400&u=f33e4dd65b7e7eed2bc673d47a45c52f7ef610ce&v=4" alt="Foto de perfil de Rafael Zilião">
+            </div>
+            <!-- Texto -->
+            <div class="text-center md:text-left">
+                <h1 class="text-6xl font-black" style="color: var(--cyan);">Rafael Zilião</h1>
+                <h2 class="text-3xl mt-2 mb-6" style="color: var(--purple);">Mobile Security Engineer at Nu</h2>
+                <div class="text-xl text-left space-y-4" style="color: var(--foreground); opacity: 0.9;">
+                    <p>"Sempre gostei de desmontar as coisas para entender como elas realmente funcionam."</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>Formado em <strong>Matemática Aplicada</strong>, apaixonado por tecnologia.</li>
+                        <li><strong>17 anos</strong> em desenvolvimento, <strong>9</strong> deles no universo iOS.</li>
+                        <li>Neurodivergente (<strong>TEA/AHSD</strong>), com uma perspectiva única sobre sistemas.</li>
+                        <li>Fora da IDE, sou "atleta" de <strong>Jiu Jitsu</strong> e competidor ativo.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 2: Abertura -->
+    <div id="slide-2" class="slide">
+        <h1 class="slide-title">🔓 “Por que você precisa pedir <span class="highlight-apple">permissão</span> no iOS?”</h1>
+        <div class="split-screen">
+            <div class="split-item">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff79c6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                <p class="text-2xl font-bold highlight-apple">Confia neste desenvolvedor?</p>
+                <p class="text-lg text-gray-400">No iOS, você pede permissão.</p>
+            </div>
+            <div class="split-item">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#50fa7b">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+                </svg>
+                <p class="text-2xl font-bold highlight-android">Instalar APK</p>
+                <p class="text-lg text-gray-400">No Android, você instala.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3: Filosofia -->
+    <div id="slide-3" class="slide">
+        <h2 class="slide-title">🍏 Segurança ou <span class="highlight-apple">prisão de luxo?</span></h2>
+        <svg class="w-48 h-48 mb-8 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#6272a4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.375a6.375 6.375 0 0 0 6.375-6.375h.038a6.375 6.375 0 0 0-6.375-6.375a6.375 6.375 0 0 0-6.375 6.375h-.038a6.375 6.375 0 0 0 6.375 6.375Zm0 0v-4.5m0 4.5v.038" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 8.25V18a2.25 2.25 0 0 0 2.25 2.25h13.5A2.25 2.25 0 0 0 21 18V8.25m-18 0V6a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 6v2.25m-18 0h18" />
+        </svg>
+        <p class="slide-content">Android nasceu <span class="highlight-android">aberto</span>. iOS nasceu <span class="highlight-apple">fechado</span>.<br>Isso cria um jardim bonito, seguro… mas murado.</p>
+    </div>
+
+    <!-- Slide 4: Contexto Histórico -->
+    <div id="slide-4" class="slide">
+        <h2 class="slide-title">Onde Tudo Começou: <span class="highlight-apple">A Guerra</span> dos Smartphones</h2>
+        <div class="split-screen">
+            <div class="split-item">
+                <h3 class="text-2xl font-bold mb-4 highlight-apple">iPhone (2007)</h3>
+                <p class="text-lg text-gray-400">Visão de um produto integrado: hardware e software em perfeita harmonia. Controle total para uma experiência premium.</p>
+            </div>
+            <div class="split-item">
+                 <h3 class="text-2xl font-bold mb-4 highlight-android">Android (2008)</h3>
+                <p class="text-lg text-gray-400">Visão de uma plataforma aberta: um sistema operacional para competir em todos os dispositivos. Liberdade para os fabricantes.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: Modelo de Negócios -->
+    <div id="slide-5" class="slide">
+        <h2 class="slide-title">Siga o Dinheiro: Hardware vs. Dados</h2>
+        <div class="split-screen">
+            <div class="split-item">
+                <h3 class="text-2xl font-bold mb-4 highlight-apple">Apple: Venda de Hardware</h3>
+                <p class="text-lg text-gray-400">O ecossistema fechado e seguro é um recurso que agrega valor e justifica o preço premium do iPhone.</p>
+            </div>
+            <div class="split-item">
+                 <h3 class="text-2xl font-bold mb-4 highlight-android">Google: Publicidade e Dados</h3>
+                <p class="text-lg text-gray-400">Um sistema aberto garante alcance massivo, essencial para coletar dados e dominar o mercado de anúncios.</p>
+            </div>
+        </div>
+        <p class="slide-content mt-8">A segurança do iOS é um recurso para o usuário ou uma estratégia para vender hardware?</p>
+    </div>
+
+    <!-- Slide 6: Assinatura -->
+    <div id="slide-6" class="slide">
+        <h2 class="slide-title">🔐 A <span class="highlight-apple">assinatura</span> é a fechadura</h2>
+        <div class="flex flex-col md:flex-row gap-8 items-center justify-center w-full max-w-5xl">
+            <div class="text-center">
+                <p class="text-2xl mb-4">App → Codesign → AMFI → Execução</p>
+                <p class="text-lg text-gray-400">O kernel valida via Apple Mobile File Integrity. Sem assinatura válida, o app não abre.</p>
+            </div>
+            <div class="code-block">
+                <p><span class="text-gray-400">></span> codesign -dvvv --entitlements :- MyApp.app</p>
+                <p><span style="color: var(--orange)">Authority</span>=iPhone Distribution: Apple Inc.</p>
+                <p><span style="color: var(--orange)">Entitlements:</span></p>
+                <p class="pl-4"><span style="color: var(--cyan)">com.apple.developer.team-identifier</span></p>
+                <p class="pl-4"><span style="color: var(--cyan)">com.apple.developer.associated-domains</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7: Como Realmente É -->
+    <div id="slide-7" class="slide">
+        <h2 class="slide-title">Como o processo <span class="highlight-apple">realmente é</span></h2>
+        <div class="image-container">
+            <img src="https://miro.medium.com/v2/resize:fit:4800/format:webp/1*72A4SphcWvwX71cq0Hw0iQ.png" alt="[Imagem de Diagrama complexo do processo de assinatura de código do iOS]" onerror="this.onerror=null;this.src='https://placehold.co/1200x800/44475a/f8f8f2?text=Diagrama+Indispon%C3%ADvel';">
+        </div>
+        <p class="slide-content">Nos bastidores, é uma cadeia complexa de validações criptográficas.</p>
+    </div>
+
+    <!-- Slide 8: Com o que se parece -->
+    <div id="slide-8" class="slide">
+        <h2 class="slide-title">Para quem tenta <span class="highlight-apple">quebrar as regras</span></h2>
+        <div class="image-container">
+            <img src="https://www.svg.com/img/gallery/the-most-brutal-super-mario-maker-2-levels/the-infamous-1-1-with-a-twist-1566930456.webp" alt="[Imagem de Nível de Super Mario Maker extremamente difícil e caótico]" onerror="this.onerror=null;this.src='https://placehold.co/1200x800/44475a/f8f8f2?text=Imagem+Indispon%C3%ADvel';">
+        </div>
+        <p class="slide-content">Tentar contornar o sistema é como jogar um nível impossível: cada passo é um obstáculo.</p>
+    </div>
+    
+    <!-- Slide 9: FairPlay -->
+    <div id="slide-9" class="slide">
+        <h2 class="slide-title">⚡ FairPlay: a <span class="highlight-apple">cerca elétrica</span></h2>
+        <svg class="w-48 h-48 mb-8" style="color: var(--yellow)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 1.5-1.5m13.5 1.5-1.5-1.5m-12 3 1.5-1.5m9 1.5-1.5-1.5" />
+        </svg>
+        <p class="slide-content">FairPlay é o DRM que criptografa e vincula apps ao seu ID Apple.<br>A assinatura é a <span class="highlight-apple">fechadura</span>. O FairPlay é a <span class="highlight-apple">cerca elétrica</span>.</p>
+    </div>
+
+    <!-- Slide 10: Sideloading -->
+    <div id="slide-10" class="slide">
+        <h2 class="slide-title">📦 Sideloading no iOS: liberdade <span class="highlight-apple">sob vigilância</span></h2>
+        <div class="relative w-48 h-48 mb-8">
+            <svg class="w-full h-full" style="color: var(--cyan)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
+            </svg>
+            <div class="absolute -top-2 -right-2 text-white text-lg font-bold px-4 py-2 rounded-full transform rotate-12" style="background-color: var(--red)">7 DIAS</div>
+        </div>
+        <p class="slide-content">Até o sideload com AltStore precisa da Apple e tem limites.<br>Isso é sideloading… ou só uma <span class="highlight-apple">ilusão de liberdade</span>?</p>
+    </div>
+
+    <!-- Slide 11: DMA -->
+    <div id="slide-11" class="slide">
+        <h2 class="slide-title">A Muralha Começa a Rachar? O Futuro com o DMA</h2>
+        <p class="slide-content mb-8">O Digital Markets Act na Europa força a Apple a permitir lojas de terceiros. Mas a Apple reage com a "Core Technology Fee" e um processo de "Notarization".</p>
+        <p class="slide-content font-bold">Se a Apple é forçada a abrir, mas ainda controla quem entra e cobra pedágio, isso é realmente liberdade?</p>
+    </div>
+
+    <!-- Slide 12: Demonstração -->
+    <div id="slide-12" class="slide">
+        <h2 class="slide-title">🛠️ Tentando instalar um app <span class="highlight-apple">sem assinatura…</span></h2>
+        <div class="border rounded-xl p-8 max-w-lg text-center shadow-2xl" style="background-color: var(--current-line); border-color: var(--red)">
+            <svg class="w-24 h-24 mx-auto mb-4" style="color: var(--red)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+            </svg>
+            <h3 class="text-3xl font-bold mb-2">Desenvolvedor Não Confiável</h3>
+            <p class="text-gray-300">Este app não pode ser aberto porque não foi verificado.</p>
+        </div>
+        <p class="slide-content mt-8">É isso. Nem abre. Até para burlar, você precisa pedir permissão.</p>
+    </div>
+    
+    <!-- Slide 13: Jailbreak -->
+    <div id="slide-13" class="slide">
+        <h2 class="slide-title">👻 Jailbreak: liberdade com um <span class="highlight-apple">preço</span></h2>
+        <div class="flex items-center gap-8">
+            <img src="https://www.altstore.io/assets/cydia-icon.png" alt="Logo do Cydia" class="w-32 h-32" onerror="this.style.display='none'">
+            <p class="text-6xl font-black" style="color: var(--comment)">+</p>
+            <p class="text-4xl font-bold" style="color: var(--foreground); opacity: 0.9;">"Freedom has a price"</p>
+        </div>
+        <p class="slide-content mt-8">Explorar vulnerabilidades para rodar código sem assinatura.<br>Hoje é raro, complexo e arriscado. Custa caro em segurança.</p>
+    </div>
+
+    <!-- Slide 14: Estudo de Caso -->
+    <div id="slide-14" class="slide">
+        <h2 class="slide-title">Na Prática: O Que Você Perde e o Que Você Ganha?</h2>
+        <div class="split-screen">
+            <div class="split-item">
+                <h3 class="text-2xl font-bold mb-4 highlight-apple">Perdas no iOS</h3>
+                <p class="text-lg text-gray-400">Emuladores de games, apps de torrent, personalização profunda da interface (launchers), gerenciadores de arquivos avançados.</p>
+            </div>
+            <div class="split-item">
+                 <h3 class="text-2xl font-bold mb-4 highlight-android">Ganhos no Android</h3>
+                <p class="text-lg text-gray-400">Lojas alternativas como F-Droid, liberdade para mudar a aparência do sistema, acesso direto ao sistema de arquivos.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 15: Anti-Jailbreak & Signature Checks -->
+    <div id="slide-15" class="slide">
+        <h2 class="slide-title">🛡️ E se você tentar <span class="highlight-apple">enganar</span> o sistema?</h2>
+        <div class="split-screen">
+            <div class="split-item text-left">
+                <h3 class="text-2xl font-bold mb-4 highlight-apple">iOS</h3>
+                <p class="text-lg text-gray-400 mb-4">Mesmo com jailbreak, os apps lutam com:</p>
+                <ul class="text-lg list-disc list-inside text-left w-full space-y-2">
+                    <li>Detecção de Jailbreak</li>
+                    <li>Técnicas Anti-Hooking</li>
+                    <li>Validação de Assinatura</li>
+                    <li>Ofuscação de Código</li>
+                </ul>
+                 <p class="mt-4 text-gray-400">A primeira barreira é a <span class="font-bold">instalação</span>.</p>
+            </div>
+            <div class="split-item text-left">
+                <h3 class="text-2xl font-bold mb-4 highlight-android">Android</h3>
+                 <p class="text-lg text-gray-400 mb-4">Apps se protegem com:</p>
+                 <ul class="text-lg list-disc list-inside text-left w-full space-y-2">
+                    <li>SafetyNet & Play Integrity</li>
+                    <li>Detecção de Root</li>
+                    <li>Validação de Assinatura</li>
+                    <li>Ofuscação de Código</li>
+                </ul>
+                <p class="mt-4 text-gray-400">Você instala, e <span class="font-bold">depois</span> o app te bloqueia.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 16: Decisão -->
+    <div id="slide-16" class="slide">
+        <h2 class="slide-title">⚖️ Quem deve <span class="highlight-apple">decidir</span>?</h2>
+        <svg class="w-48 h-48 mb-8" style="color: var(--comment)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v17.25m0 0c-1.472 0-2.882.265-4.185.75M12 20.25c1.472 0 2.882.265 4.185.75M18.75 4.97A48.416 48.416 0 0 0 12 4.5c-2.291 0-4.545.16-6.75.47m13.5 0c1.01.143 2.01.317 3 .52m-19.5 0c.99-.203 1.99-.377 3-.52M6.75 7.5h10.5M6.75 7.5a2.25 2.25 0 0 1-2.25-2.25V3.75a2.25 2.25 0 0 1 2.25-2.25h10.5a2.25 2.25 0 0 1 2.25 2.25v1.5a2.25 2.25 0 0 1-2.25 2.25M6.75 7.5v1.5m10.5-1.5v1.5m-10.5 0a2.25 2.25 0 0 0-2.25 2.25v3.75a2.25 2.25 0 0 0 2.25 2.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-3.75a2.25 2.25 0 0 0-2.25-2.25M6.75 15h10.5" />
+        </svg>
+        <p class="slide-content">A Apple diz que faz isso para proteger você. Mas também controla o mercado.<br>Quem deveria decidir o que roda no seu aparelho? <span class="font-bold">Você… ou a Apple?</span></p>
+    </div>
+
+    <!-- Slide 17: Encerramento -->
+    <div id="slide-17" class="slide">
+        <h2 class="slide-title">Liberdade ou Controle?</h2>
+        <div class="split-screen">
+            <div class="split-item" style="border-color: var(--pink);">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff79c6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                </svg>
+                <p class="text-3xl font-bold highlight-apple">Porta Trancada</p>
+            </div>
+            <div class="split-item" style="border-color: var(--green);">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#50fa7b">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                </svg>
+                <p class="text-3xl font-bold highlight-android">Porta Aberta</p>
+            </div>
+        </div>
+        <p class="slide-content mt-8">Qual lado você escolhe?</p>
+    </div>
+    
+    <!-- Slide 18: Tabela -->
+    <div id="slide-18" class="slide">
+        <h2 class="slide-title">Tabela Comparativa</h2>
+        <div class="table-container">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Aspecto</th>
+                        <th>Android</th>
+                        <th>iOS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Instalação de apps</strong></td><td>APK, sideloading liberado</td><td>Só com assinatura válida (Apple)</td></tr>
+                    <tr><td><strong>Modelo de distribuição</strong></td><td>Play Store + lojas alternativas + direto</td><td>App Store (único canal oficial)</td></tr>
+                    <tr><td><strong>Assinatura obrigatória</strong></td><td>Não para instalar, mas apps verificam em runtime</td><td>Obrigatória para execução (AMFI)</td></tr>
+                    <tr><td><strong>DRM (FairPlay)</strong></td><td>Não nativo (depende do app)</td><td>Nativo e obrigatório</td></tr>
+                    <tr><td><strong>Sideloading real?</strong></td><td>Sim, sem limites</td><td>Com certificado, limitado, vigiado</td></tr>
+                    <tr><td><strong>Anti-root/jailbreak</strong></td><td>SafetyNet, Play Integrity API</td><td>Checks internos + validação de assinatura</td></tr>
+                    <tr><td><strong>Liberdade</strong></td><td>Alta (com riscos de malware)</td><td>Baixa (com maior segurança e controle)</td></tr>
+                    <tr><td><strong>Risco de malware</strong></td><td>Alto (se instalar de fontes externas)</td><td>Muito baixo (sem jailbreak)</td></tr>
+                    <tr><td><strong>Quem manda?</strong></td><td>Usuário decide</td><td>Apple decide</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- NOVO Slide 19: Encerramento e Contato -->
+    <div id="slide-19" class="slide">
+        <h1 class="slide-title" style="color: var(--cyan);">Obrigado!</h1>
+        <div class="flex flex-col items-center gap-6">
+            <div class="text-center">
+                <p class="text-xl mb-2">Acesse os slides aqui:</p>
+                <img src="https://placehold.co/250x250/f8f8f2/282a36?text=QR+Code" alt="QR Code para os slides" class="rounded-lg border-4" style="border-color: var(--comment);">
+            </div>
+            <div class="text-center text-2xl mt-4">
+                <p style="color: var(--purple);">Rafael Zilião</p>
+                <p class="text-xl" style="color: var(--foreground); opacity: 0.8;">LinkedIn & GitHub: /rziliao</p>
+            </div>
+        </div>
+        <p class="slide-content mt-12 font-bold">
+            Lembre-se: a escolha entre um <span class="highlight-apple">jardim murado</span> e um <span class="highlight-android">campo aberto</span> é sua. Qual caminho você vai explorar?
+        </p>
+    </div>
+
+    <!-- Controles de Navegação -->
+    <div id="slide-counter">1 / 19</div>
+    <div class="nav-controls">
+        <button id="prev-btn" class="nav-button">←</button>
+        <button id="next-btn" class="nav-button">→</button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const slideCounter = document.getElementById('slide-counter');
+
+        function showSlide(slideNumber) {
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+            const newSlide = document.getElementById(`slide-${slideNumber}`);
+            if (newSlide) {
+                newSlide.classList.add('active');
+                slideCounter.textContent = `${slideNumber} / ${totalSlides}`;
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        }
+
+        document.getElementById('next-btn').addEventListener('click', nextSlide);
+        document.getElementById('prev-btn').addEventListener('click', prevSlide);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault(); // Evita que a barra de espaço role a página
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            }
+        });
+
+        // Inicializa o primeiro slide
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
