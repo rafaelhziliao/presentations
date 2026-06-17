@@ -1,0 +1,35 @@
+[
+  {
+    "id": "instrumentation-journey-ch1",
+    "series": "Instrumentation Journey",
+    "badge": "Article Series",
+    "chapter": "Chapter 01",
+    "title": "The Observer",
+    "description": "What is a process? What is a debugger? And why does a hidden unlock code exist in memory even when the UI never shows it? An investigation-first introduction to runtime observation with LLDB.",
+    "path": "/instrumentation-journey/chapter-1-the-observer/",
+    "cta": "Read article",
+    "status": "published"
+  },
+  {
+    "id": "instrumentation-journey-ch2",
+    "series": "Instrumentation Journey",
+    "badge": "Article Series",
+    "chapter": "Chapter 02",
+    "title": "Runtime Explorer",
+    "description": "Explore the Objective-C runtime and understand how method dispatch works under the hood.",
+    "path": null,
+    "cta": "Coming soon",
+    "status": "coming-soon"
+  },
+  {
+    "id": "instrumentation-journey-ch3",
+    "series": "Instrumentation Journey",
+    "badge": "Article Series",
+    "chapter": "Chapter 03",
+    "title": "Import Rewriter",
+    "description": "Redirect function calls at the import table level using fishhook.",
+    "path": null,
+    "cta": "Coming soon",
+    "status": "coming-soon"
+  }
+]

@@ -1,127 +1,104 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apresentações de Rafael Zilião</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;900&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Dracula Theme Palette */
-        :root {
-            --background: #282a36;
-            --current-line: #44475a;
-            --foreground: #f8f8f2;
-            --comment: #6272a4;
-            --cyan: #8be9fd;
-            --green: #50fa7b;
-            --orange: #ffb86c;
-            --pink: #ff79c6;
-            --purple: #bd93f9;
-            --red: #ff5555;
-            --yellow: #f1fa8c;
-        }
+---
+layout: layouts/base.njk
+title: Rafael Zilião
+description: Writing on iOS instrumentation, debugging, and runtime analysis by Rafael Zilião.
+---
+<style>
+    main { flex-grow: 1; }
 
-        /* Estilos Globais e Fontes */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--background);
-            color: var(--foreground);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+    body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
 
-        h1, h2, h3 {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 700;
-        }
+    .card {
+        background-color: var(--current-line);
+        border: 1px solid var(--comment);
+        border-radius: 1rem;
+        padding: 1.75rem;
+        display: block;
+        text-decoration: none;
+        color: var(--foreground);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
 
-        main {
-            flex-grow: 1;
-        }
+    .card:not(.card--disabled):hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+        border-color: var(--purple);
+    }
 
-        .presentation-card {
-            background-color: var(--current-line);
-            border: 1px solid var(--comment);
-            border-radius: 1rem;
-            padding: 2rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: block;
-            text-decoration: none;
-            color: var(--foreground);
-        }
+    .card--disabled {
+        opacity: 0.45;
+        cursor: default;
+    }
 
-        .presentation-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            border-color: var(--purple);
-        }
+    .card-arrow {
+        transition: transform 0.2s ease;
+    }
 
-        .card-title {
-            color: var(--cyan);
-            font-family: 'Poppins', sans-serif;
-            font-weight: 700;
-        }
+    .card:not(.card--disabled):hover .card-arrow {
+        transform: translateX(4px);
+    }
 
-        .card-description {
-            color: var(--foreground);
-            opacity: 0.8;
-        }
-        
-        .card-link-arrow {
-            transition: transform 0.3s ease;
-        }
+    .badge {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        border-radius: 999px;
+        padding: 0.2rem 0.6rem;
+    }
+</style>
 
-        .presentation-card:hover .card-link-arrow {
-            transform: translateX(5px);
-        }
+<header class="pt-14 pb-8 px-6">
+    <div class="max-w-3xl mx-auto">
+        <p style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--comment);margin-bottom:0.5rem;">rafaelziliao.dev</p>
+        <h1 style="font-size:2rem;color:var(--foreground);margin:0;">Writing</h1>
+    </div>
+</header>
 
-    </style>
-</head>
-<body class="flex flex-col">
+<main class="px-6 pb-16">
+    <div class="max-w-3xl mx-auto" style="display:flex;flex-direction:column;gap:1rem;">
 
-    <header class="py-8">
-        <h1 class="text-5xl font-black text-center" style="color: var(--cyan);">Minhas Apresentações</h1>
-    </header>
-
-    <main class="container mx-auto px-4 py-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            
-            <!-- Card da Apresentação -->
-            <a href="https://rafaelhziliao.github.io/presentations/mobile-sideloading" class="presentation-card">
-                <h2 class="text-2xl card-title mb-2">No Android você instala. No iOS, você pede permissão.</h2>
-                <p class="card-description mb-4">
-                    Uma análise profunda sobre as filosofias de segurança e controle dos dois maiores sistemas operacionais mobile.
-                </p>
-                <div class="flex items-center font-bold" style="color: var(--purple);">
-                    <span>Ver apresentação</span>
-                    <span class="card-link-arrow ml-2">→</span>
+        {% for article in articles %}
+            {% if article.status == "published" %}
+                <a href="{{ article.path }}" class="card">
+                    <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.85rem;">
+                        <span class="badge" style="color:var(--green);background:rgba(80,250,123,0.1);border:1px solid rgba(80,250,123,0.25);">{{ article.badge }}</span>
+                        <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--comment);">{{ article.chapter }}</span>
+                    </div>
+                    <h2 style="font-size:1.1rem;color:var(--cyan);margin:0 0 0.2rem;">{{ article.series }}</h2>
+                    <p style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--comment);margin:0 0 0.75rem;">{{ article.chapter }} · {{ article.title }}</p>
+                    <p style="font-size:0.9rem;color:var(--foreground);opacity:0.8;margin:0 0 1.1rem;line-height:1.6;">{{ article.description }}</p>
+                    <div style="display:flex;align-items:center;gap:0.4rem;font-weight:700;color:var(--purple);font-size:0.9rem;">
+                        <span>{{ article.cta }}</span>
+                        <span class="card-arrow">→</span>
+                    </div>
+                </a>
+            {% elif article.status == "coming-soon" %}
+                <div class="card card--disabled">
+                    <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.85rem;">
+                        <span class="badge" style="color:var(--comment);background:rgba(98,114,164,0.1);border:1px solid rgba(98,114,164,0.25);">{{ article.badge }}</span>
+                        <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--comment);">{{ article.chapter }}</span>
+                    </div>
+                    <h2 style="font-size:1.1rem;color:var(--comment);margin:0 0 0.2rem;">{{ article.series }}</h2>
+                    <p style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--comment);margin:0 0 0.75rem;">{{ article.chapter }} · {{ article.title }}</p>
+                    <p style="font-size:0.9rem;color:var(--foreground);opacity:0.5;margin:0 0 1.1rem;line-height:1.6;">{{ article.description }}</p>
+                    <div style="display:flex;align-items:center;gap:0.4rem;">
+                        <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;font-weight:700;color:var(--orange);background:rgba(255,184,108,0.08);border:1px solid rgba(255,184,108,0.2);border-radius:4px;padding:0.2rem 0.5rem;">Coming soon</span>
+                    </div>
                 </div>
-            </a>
+            {% endif %}
+        {% endfor %}
 
-            <!-- Futuros cards de apresentação podem ser adicionados aqui -->
-            <!-- 
-            <a href="#" class="presentation-card">
-                <h2 class="text-2xl card-title mb-2">Título da Próxima Palestra</h2>
-                <p class="card-description mb-4">
-                    Descrição da próxima palestra.
-                </p>
-                <div class="flex items-center font-bold" style="color: var(--purple);">
-                    <span>Ver apresentação</span>
-                    <span class="card-link-arrow ml-2">→</span>
-                </div>
-            </a>
-            -->
+    </div>
+</main>
 
-        </div>
-    </main>
-
-    <footer class="text-center py-6 mt-auto">
-        <p style="color: var(--comment);">Desenvolvido por Rafael Zilião</p>
-    </footer>
-
-</body>
-</html>
+<footer class="px-6 py-8" style="border-top:1px solid var(--current-line);">
+    <div class="max-w-3xl mx-auto">
+        <p style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--comment);">Rafael Zilião</p>
+    </div>
+</footer>
