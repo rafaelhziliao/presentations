@@ -1,0 +1,13 @@
+[
+  {
+    "id": "instrumentation-journey",
+    "slug": "instrumentation-journey",
+    "title": "Instrumentation Journey",
+    "tagline": "Stop guessing. Start observing.",
+    "description": "Most engineers know how to use the tools. Few know when not to trust them. This series teaches iOS runtime investigation from first principles: one technique, one tool, one real challenge per chapter. No source code required.",
+    "topics": ["LLDB", "iOS", "Swift", "Runtime"],
+    "chapterCount": 8,
+    "publishedCount": 1,
+    "status": "active"
+  }
+]
