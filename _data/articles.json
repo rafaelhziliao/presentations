@@ -8,6 +8,8 @@
     "title": "The Observer",
     "description": "What is a process? What is a debugger? And why does a hidden unlock code exist in memory when the UI never shows it? An investigation-first introduction to runtime observation with LLDB.",
     "path": "/instrumentation-journey/chapter-1-the-observer/",
+    "releaseUrl": "https://github.com/rafaelhziliao/instrumentation-journey/releases/tag/v1.0.0",
+    "ipaUrl": "https://github.com/rafaelhziliao/instrumentation-journey/releases/download/v1.0.0/InstrumentationJourney.ipa",
     "cta": "Read article",
     "status": "published"
   },
@@ -20,6 +22,8 @@
     "title": "The Messenger",
     "description": "Every Objective-C method call passes through one function: objc_msgSend. A button has no label. An action leaves no log. Your task is to intercept the messenger and read the address before it's delivered.",
     "path": null,
+    "releaseUrl": null,
+    "ipaUrl": null,
     "cta": "Coming soon",
     "status": "coming-soon"
   },
@@ -32,6 +36,8 @@
     "title": "The Interceptor",
     "description": "The app enforces a five-minute wait before you can proceed. The clock is real. But the method that reads it doesn't have to be. This chapter introduces the first modification: swapping an implementation at runtime without touching the binary.",
     "path": null,
+    "releaseUrl": null,
+    "ipaUrl": null,
     "cta": "Coming soon",
     "status": "coming-soon"
   }

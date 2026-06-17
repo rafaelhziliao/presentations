@@ -112,9 +112,17 @@ description: Most engineers know how to use the tools. Few know when not to trus
                         </div>
                         <h2 style="font-family:'Poppins',sans-serif;font-weight:700;font-size:1.35rem;color:var(--cyan);margin:0 0 0.6rem;">{{ article.title }}</h2>
                         <p style="font-size:0.9rem;color:var(--foreground);opacity:0.8;margin:0 0 1.1rem;line-height:1.6;">{{ article.description }}</p>
-                        <div style="display:flex;align-items:center;gap:0.4rem;font-weight:700;color:var(--purple);font-size:0.875rem;">
-                            <span>{{ article.cta }}</span>
-                            <span class="card-arrow">→</span>
+                        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+                            <div style="display:flex;align-items:center;gap:0.4rem;font-weight:700;color:var(--purple);font-size:0.875rem;">
+                                <span>{{ article.cta }}</span>
+                                <span class="card-arrow">→</span>
+                            </div>
+                            {% if article.ipaUrl %}
+                                <span style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--comment);display:inline-flex;align-items:center;gap:0.3rem;">
+                                    <svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor"><path d="M2.75 14A1.75 1.75 0 0 1 1 12.25v-2.5a.75.75 0 0 1 1.5 0v2.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25v-2.5a.75.75 0 0 1 1.5 0v2.5A1.75 1.75 0 0 1 13.25 14Z"/><path d="M7.25 7.689V2a.75.75 0 0 1 1.5 0v5.689l1.97-1.97a.749.749 0 1 1 1.06 1.061l-3.25 3.25a.749.749 0 0 1-1.06 0L4.22 6.78a.749.749 0 1 1 1.06-1.061z"/></svg>
+                                    IPA available
+                                </span>
+                            {% endif %}
                         </div>
                     </a>
                 {% elif article.status == "coming-soon" %}
