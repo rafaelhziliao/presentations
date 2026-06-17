@@ -21,7 +21,7 @@ module.exports = function(eleventyConfig) {
   // and set its entry in _data/articles.json to published: true.
 
   return {
-    pathPrefix: "/presentations/",
+    pathPrefix: "/memory-dump/",
     dir: {
       input: ".",
       output: "_site",
