@@ -1,4 +1,15 @@
 module.exports = function(eleventyConfig) {
+  // Planning documents — not published to the site
+  eleventyConfig.ignores.add("_planning/**");
+
+  // Filters
+  eleventyConfig.addFilter("find", (array, key, value) =>
+    array.find(item => item[key] === value)
+  );
+  eleventyConfig.addFilter("where", (array, key, value) =>
+    array.filter(item => item[key] === value)
+  );
+
   // Copy article directories to output as-is (no template processing)
   eleventyConfig.addPassthroughCopy("instrumentation-journey");
 

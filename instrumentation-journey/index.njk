@@ -1,0 +1,151 @@
+---
+layout: layouts/base.njk
+title: Instrumentation Journey | Rafael Zilião
+description: Most engineers know how to use the tools. Few know when not to trust them. One technique, one tool, one real challenge per chapter. No source code required.
+---
+<style>
+    html { scroll-behavior: smooth; }
+
+    body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        line-height: 1.75;
+    }
+
+    main { flex-grow: 1; }
+
+    /* Nav */
+    .top-nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background-color: rgba(40, 42, 54, 0.92);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--current-line);
+    }
+
+    /* Hero */
+    .hero {
+        border-bottom: 1px solid var(--current-line);
+        background: linear-gradient(180deg, rgba(68,71,90,0.35) 0%, transparent 100%);
+    }
+
+    /* Chapter card */
+    .chapter-card {
+        background-color: var(--current-line);
+        border: 1px solid var(--comment);
+        border-radius: 1rem;
+        padding: 1.75rem;
+        display: block;
+        text-decoration: none;
+        color: var(--foreground);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .chapter-card:not(.chapter-card--disabled):hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+        border-color: var(--cyan);
+    }
+
+    .chapter-card--disabled {
+        opacity: 0.45;
+        cursor: default;
+    }
+
+    .card-arrow { transition: transform 0.2s ease; }
+    .chapter-card:not(.chapter-card--disabled):hover .card-arrow { transform: translateX(4px); }
+
+    /* .topic-tag comes from theme.css */
+</style>
+
+<div id="progress-bar" style="position:fixed;top:0;left:0;height:2px;background:linear-gradient(to right,var(--cyan),var(--purple));z-index:100;width:0%;transition:width 0.1s linear;"></div>
+
+<nav class="top-nav">
+    <div class="max-w-3xl mx-auto px-6 py-3 flex items-center justify-between">
+        <a href="/" style="text-decoration:none;display:flex;align-items:center;gap:0.5rem;">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--comment);">←</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--comment);letter-spacing:0.1em;text-transform:uppercase;">rafaelziliao.dev</span>
+        </a>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--cyan);font-weight:700;letter-spacing:0.05em;">Instrumentation Journey</span>
+    </div>
+</nav>
+
+<header class="hero px-6 py-16 md:py-20">
+    <div class="max-w-3xl mx-auto">
+        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1.25rem;">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--green);background:rgba(80,250,123,0.08);border:1px solid rgba(80,250,123,0.2);border-radius:999px;padding:0.2rem 0.7rem;">Article Series</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--comment);">In progress</span>
+        </div>
+
+        <h1 style="font-family:'Poppins',sans-serif;font-weight:900;font-size:3rem;line-height:1.1;color:var(--foreground);margin-bottom:0.75rem;">
+            Instrumentation<br><span style="color:var(--cyan);">Journey</span>
+        </h1>
+
+        <p style="font-size:1.1rem;color:var(--comment);max-width:540px;margin-bottom:0.875rem;opacity:1;line-height:1.65;">
+            Each chapter introduces one investigation technique, one tool, and a challenge built on a real app. No source code required.
+        </p>
+        <p style="font-size:1rem;color:var(--comment);max-width:540px;margin-bottom:1.5rem;opacity:0.8;line-height:1.65;">
+            The goal isn't to build a list of commands to memorize. It's to develop the judgment to pick the right instrument for each situation, and the discipline to question your findings before acting on them.
+        </p>
+
+        <div style="display:flex;flex-wrap:wrap;gap:0.4rem;">
+            <span class="topic-tag">LLDB</span>
+            <span class="topic-tag">iOS</span>
+            <span class="topic-tag">Swift</span>
+            <span class="topic-tag">Runtime</span>
+        </div>
+    </div>
+</header>
+
+<main class="px-6 py-12">
+    <div class="max-w-3xl mx-auto" style="display:flex;flex-direction:column;gap:1rem;">
+
+        {% for article in articles %}
+            {% if article.seriesSlug == "instrumentation-journey" %}
+                {% if article.status == "published" %}
+                    <a href="{{ article.path }}" class="chapter-card">
+                        <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1rem;">
+                            <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--green);background:rgba(80,250,123,0.08);border:1px solid rgba(80,250,123,0.2);border-radius:4px;padding:0.15rem 0.5rem;">{{ article.chapter }}</span>
+                        </div>
+                        <h2 style="font-family:'Poppins',sans-serif;font-weight:700;font-size:1.35rem;color:var(--cyan);margin:0 0 0.6rem;">{{ article.title }}</h2>
+                        <p style="font-size:0.9rem;color:var(--foreground);opacity:0.8;margin:0 0 1.1rem;line-height:1.6;">{{ article.description }}</p>
+                        <div style="display:flex;align-items:center;gap:0.4rem;font-weight:700;color:var(--purple);font-size:0.875rem;">
+                            <span>{{ article.cta }}</span>
+                            <span class="card-arrow">→</span>
+                        </div>
+                    </a>
+                {% elif article.status == "coming-soon" %}
+                    <div class="chapter-card chapter-card--disabled">
+                        <div style="margin-bottom:1rem;">
+                            <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--comment);background:rgba(98,114,164,0.08);border:1px solid rgba(98,114,164,0.2);border-radius:4px;padding:0.15rem 0.5rem;">{{ article.chapter }}</span>
+                        </div>
+                        <h2 style="font-family:'Poppins',sans-serif;font-weight:700;font-size:1.35rem;color:var(--comment);margin:0 0 0.6rem;">{{ article.title }}</h2>
+                        <p style="font-size:0.9rem;color:var(--foreground);opacity:0.5;margin:0 0 1.1rem;line-height:1.6;">{{ article.description }}</p>
+                        <div>
+                            <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;font-weight:700;color:var(--orange);background:rgba(255,184,108,0.08);border:1px solid rgba(255,184,108,0.2);border-radius:4px;padding:0.2rem 0.5rem;">Coming soon</span>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+
+    </div>
+</main>
+
+<footer style="border-top:1px solid var(--current-line);padding:2rem 1.5rem;">
+    <div class="max-w-3xl mx-auto">
+        <p style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--comment);">Rafael Zilião · Instrumentation Journey</p>
+    </div>
+</footer>
+
+<script>
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        document.getElementById('progress-bar').style.width = pct + '%';
+    });
+</script>
