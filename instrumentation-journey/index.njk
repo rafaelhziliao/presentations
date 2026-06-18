@@ -106,7 +106,7 @@ description: Most engineers know how to use the tools. Few know when not to trus
         {% for article in articles %}
             {% if article.seriesSlug == "instrumentation-journey" %}
                 {% if article.status == "published" %}
-                    <a href="{{ article.path }}" class="chapter-card">
+                    <a href="{{ article.path | url }}" class="chapter-card">
                         <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1rem;">
                             <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--green);background:rgba(80,250,123,0.08);border:1px solid rgba(80,250,123,0.2);border-radius:4px;padding:0.15rem 0.5rem;">{{ article.chapter }}</span>
                         </div>

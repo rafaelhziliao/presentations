@@ -10,9 +10,6 @@ module.exports = function(eleventyConfig) {
     array.filter(item => item[key] === value)
   );
 
-  // Copy article directories to output as-is (no template processing)
-  eleventyConfig.addPassthroughCopy("instrumentation-journey");
-
   // Static assets (CSS, fonts, images)
   eleventyConfig.addPassthroughCopy("assets");
 
