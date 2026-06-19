@@ -12,6 +12,22 @@ description: Mobile Security Engineer. Writing on iOS instrumentation, debugging
 
     main { flex-grow: 1; }
 
+    /* Hero banner */
+    .site-banner {
+        display: block;
+        line-height: 0;
+        border-radius: 1rem;
+        overflow: hidden;
+        border: 1px solid var(--current-line);
+        margin-bottom: 2rem;
+    }
+
+    .site-banner img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
     /* Series card */
     .series-card {
         background-color: var(--current-line);
@@ -47,37 +63,59 @@ description: Mobile Security Engineer. Writing on iOS instrumentation, debugging
         padding: 0.15rem 0.5rem;
     }
 
-    /* About divider — zero margin override */
+    /* About strip */
+    .about-strip {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+        flex-wrap: wrap;
+    }
+
+    .about-strip img {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        border: 2px solid var(--purple);
+        flex-shrink: 0;
+        object-fit: cover;
+    }
+
+    .about-strip-text {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+    }
+
+    .about-strip-name {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: var(--foreground);
+    }
+
+    .about-strip-bio {
+        font-size: 0.9rem;
+        color: var(--comment);
+        line-height: 1.6;
+        max-width: 480px;
+    }
+
     .divider { margin: 0; }
 </style>
 
-<!-- About -->
-<header class="px-6 pt-14 pb-10">
-    <div class="max-w-3xl mx-auto">
-        <div style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;">
-            <img
-                src="https://avatars.githubusercontent.com/u/31957007?s=200"
-                alt="Rafael Zilião"
-                style="width:72px;height:72px;border-radius:50%;border:2px solid var(--purple);flex-shrink:0;object-fit:cover;"
-            >
-            <div>
-                <p style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--comment);margin-bottom:0.25rem;letter-spacing:0.05em;">rafaelziliao.dev</p>
-                <h1 style="font-family:'Poppins',sans-serif;font-weight:900;font-size:1.75rem;color:var(--foreground);margin:0 0 0.15rem;">Rafael Zilião</h1>
-                <p style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--purple);margin:0;">Mobile Security Engineer</p>
-            </div>
-        </div>
-
-        <p style="font-size:0.9375rem;color:var(--foreground);opacity:0.78;margin:1.25rem 0 0;max-width:520px;line-height:1.7;">
-            17 years in software engineering, 9 in iOS. I explore and write about the layers beneath the SDK: runtime analysis, debugging, reverse engineering, and binary instrumentation.
-        </p>
-    </div>
-</header>
-
-<hr class="divider">
-
-<!-- Writing -->
+<!-- Series -->
 <main class="px-6 py-10">
     <div class="max-w-3xl mx-auto">
+
+        <!-- Banner -->
+        <div class="site-banner">
+            <img
+                src="{{ '/assets/images/hero-banner.png' | url }}"
+                alt="memory-dump — iOS instrumentation, debugging and runtime analysis"
+                width="1672"
+                height="941"
+            >
+        </div>
 
         <p style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--comment);margin-bottom:1.25rem;">Series</p>
 
@@ -113,8 +151,18 @@ description: Mobile Security Engineer. Writing on iOS instrumentation, debugging
     </div>
 </main>
 
+<!-- About -->
 <footer class="px-6 py-8" style="border-top:1px solid var(--current-line);">
     <div class="max-w-3xl mx-auto">
-        <p style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--comment);">Rafael Zilião</p>
+        <div class="about-strip">
+            <img
+                src="https://avatars.githubusercontent.com/u/31957007?s=128"
+                alt="Rafael Zilião"
+            >
+            <div class="about-strip-text">
+                <span class="about-strip-name">Rafael Zilião</span>
+                <span class="about-strip-bio">17 years in software engineering, 9 in iOS. Runtime analysis, debugging, reverse engineering, binary instrumentation.</span>
+            </div>
+        </div>
     </div>
 </footer>
